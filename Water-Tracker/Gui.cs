@@ -58,6 +58,10 @@
             {
                 Console.WriteLine($"{dw.Id} - {dw.Date.ToString("dd-MMM-yyyy")} - Quantity: {dw.Quantity}");
             }
+
+            var average = GetAverage();
+            Console.WriteLine($"Your average Water Count per Session is {average}");
+
             Console.WriteLine("------------------------------------------\n");
 
         }
@@ -159,6 +163,22 @@
             Database.Update(date, quantity, recordId);
 
 
+        }
+
+        internal static double GetAverage()
+        {
+            double average = 0;
+
+            var total = Database.GetAllQuantities();
+            if (total.Count == 0)
+            {
+                return average;
+            }
+            else
+            {
+                average = total.Average();
+            }
+            return average;
         }
     }
 }

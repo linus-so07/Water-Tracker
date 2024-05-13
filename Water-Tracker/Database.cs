@@ -188,5 +188,32 @@ namespace Water_Tracker
                 return false;
             }
         }
+
+        internal static List<int> GetAllQuantities()
+        {
+            List<int> quantities = new List<int>();
+
+            using (var connection = new SqliteConnection(connectionString))
+            {
+                connection.Open();
+
+                var command = connection.CreateCommand();
+                command.CommandText = "SELECT Quantity FROM drinking_water";
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        int quantity = reader.GetInt32(0);
+                        quantities.Add(quantity);
+                    }
+                }
+
+                connection.Close();
+            }
+
+            return quantities;
+        }
     }
 }
+
